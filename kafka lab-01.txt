@@ -2,7 +2,7 @@
 
 How to check ZK Leader Follower
 
-BROKER ZOOKEEPER VERIFY >>>
+BROKER ZOOKEEPER VERIFY. >>>
 
 zookeeper-shell node1.server.com:2181 ls /brokers/ids
 
