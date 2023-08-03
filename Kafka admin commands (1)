@@ -1,0 +1,103 @@
+Common CLI Commands >>>>>
+
+1. Kafka-configs : this tool updates broker configs and topic configs.
+
+2. kafka-topics : this tool is used to create,delete,describe or change a kafka topic.
+
+3. kafka-consumer-groups : a consumer group is a set of consumers who cooperaate to consume data from some topics. the partitions of all the topcis are divided among the consumers in the group.aa new group members arrive and old members leave, the partitions are re-assigned so that each member receives a proportional share of the partitions this is known as rebalancing the group.
+
+4. kafka-acls : this tool adds,removes,and lists ACLs.
+
+5. kafka-console-consumer : this tool reads data from kafka topics and sends output to Standardoutput.
+
+6. kafka-console-producer : this tool sends data to kafka topics.
+
+
+KAFKA-AVRO-CONSOLE-CONSUMER AND KAFKA-AVRO-CONSOLE-PRODUCER >>>>>
+
+1. kafka-avro-console-consumer : this tool receives Avro data in JSON format from the console
+
+2. kafka-avro-console-producer : this tool sends Avro data in JSON format from the console
+
+KAFKA-CONSUMER-PERF-TEST AND KAFKA-PRODUCER-PERF-TEST
+
+1. kafka-consumer-perf-test : this tool tests the consumer performance for the kafka cluster.
+
+2. kafka-producer-perf-test : this tool tests the producer performance for the kafka cluster
+
+3. kafkacat : kafkacat is a command-line utility that you can use to test and debug apache kafka deployments. you can use kafkacat to produce,consume,and list topics and partition information for kafka.
+
+4. confluent-rebalancer
+
+
+COMMON BROKER CONFIGURATION TASKS >>>>>
+
+1.show the kafka broker version
+kafka-broker-api-versions --bootstrap-server kafka-1:19092 --version
+
+2.Change or add a broker configuration 
+kafka-configs --bootstrap-server kafka-1:19092 --alter --entity-type brokers --entity-name 101 --add-config 'log.cleaner.threads=2'
+
+3. describe / check the configuration
+kafka-configs --bootstrap-server kafka-1:19092 --entity-type broker --entity-name 101 -- describe
+
+4. Delete configuration
+kafka-configs --bootstrap-server kafka-1:19092 --entity-type brokers --entity-name 101 --alter --delete-config 'log.cleaner.threads'
+
+5. Set cluster-wide Configurations
+kafka-configs --bootstrap-server kafka-1:19092 --entity-type brokers --entity-default --alter --add-config 'log.cleaner.threads=2'
+
+6.Describe Cluster-wide Configurations
+kafka-configs --bootstrap-server kafka-1:19092 --entity-type brokers --entity-default --describe
+
+7. Delete cluster-wide Configurations 
+kafka-configs --bootstrap-server kafka-1:19092 --entity-type brokers --entity-default --alter --delete-config 'log.cleaner.threads'
+
+
+COMMON TOPIC CONFIGURATION TASKS >>>>>
+
+1.Create a Topic 
+kafka-topics --bootstrap-server kafka-1:19092 --topic users --create --replication-factor 3 --partitions 6
+
+2. Lists Topics
+kafka-topics --bootstrap kafka-1:19092 --list
+
+3.Discribe topics 
+kafka-topics --bootstrap kafka-1:19092 --describe --topics users
+
+4. increase the number of partitions for a kafka topic:
+kafka-topics --bootstrap kafka-1:19092 --alter --topic users --partitions 8
+
+5. Produce messages to a topic 
+kafka-console-producer --broker-list kafka-1:19092 --topic users
+
+6.Produce messages from a file
+kafka-console-producer --broker-list kafka-1:19092 --topic users < messages.txt
+
+7. Produce messages to kafka with both a key and value
+kafka-console-producer --bootstrap-server kafka-1:19092 --topic users --property parse.key=true --property key.separator=,
+
+8. Determine topic size.
+kafka-log-dirs --bootstrap-server kafka-1:19092 --describe --topic-list users
+
+9. Consume a kafka topic
+kafka-console-consumer --bootstrap-server kafka-1:19092 --topic users
+
+10.Consume kafka messages and display key and value
+kafka-console-consumer --bootstrap-server kafka-1:19092 --topic users --formatter kafka.tools.DefaultMessageFormatter --property print.key=true --property print.value=true
+
+11.Consume Messages from Beginning 
+kafka-console-consumer --bootstrap-server kafka-1:19092 --topic users --from-beginning
+
+12. Display partitions out of sync with the leader
+kafka-topics --bootstrap kafka-1:19092 --describe --under-replicated-partitions
+
+13.Purge a kafka topic
+kafka-configs --bootstrap-server kafka-1:19092 --alter --topic users --add-config 'retention.ms=1000'
+
+14. Remove a configuration kafka-configs --bootstrap-server --alter --topic users --delete-config 'retention.ms'
+
+15. Delete a topic 
+kafka-topics --bootstrap-server kafka-1:19092 --delete --topic users
+
+
